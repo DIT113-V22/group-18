@@ -39,7 +39,7 @@ We're working on two platforms, an Arduino car and a mobile application. For the
 * [SMCE](https://github.com/ItJustWorksTM/smce-gd/releases)
 
 ## Clone
-* Get the Group 18 repository to your computer
+* Get the [Group18](https://github.com/DIT113-V22/group-18.git) repository to your computer
 
 ## SMCE
 * Once downloaded, start the SMCE-Godot application and press “Start Fresh” then press“+” to add a new sketch.
