@@ -43,10 +43,10 @@ We're working on two platforms, an Arduino car and a mobile application. For the
 
 ## SMCE
 * Once downloaded, start the SMCE-Godot application and press “Start Fresh” then press“+” to add a new sketch.
-* Open the file smarcar.ino file found at group-18/arduino/smartcar/smartcar.ino and select the sketch.
+* Open the file smarcar.ino file found at group-18/arduino/smartcarnew/smartcarnew.ino and select the sketch.
 * Compile the arduino file and press “Start”
 ## Android Studio
-* In Android studio’s welcome screen, press “open” and then choose SmartCarApp from group-18 folder found at group-18/SmartCarApp
+* In Android studio’s welcome screen, press “open” and then choose _icar13_ from group-18 folder found at _group-18/icar13_
 * Build the project by clicking on the green hammer icon or by pressing CTRL+F9.
 * Click on Tools > Device Manager. Click on “Create device” then on “New Hardware Profile” set the screen size to 6,53 inch and the resolution to 1080 x 2340 and ram to 1.53 GB. Press “finish”
 * Run the app with the created device
