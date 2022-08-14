@@ -25,8 +25,11 @@ We're working on two platforms, an Arduino car and a mobile application. For the
 
 
 # Milestones
-* [Manual Control](https://github.com/gusallaar/iCar/wiki/Manual-Control)
-* [Cruse Control](https://github.com/gusallaar/iCar/wiki/Cruse-Control)
+* [Manual Control](https://github.com/DIT113-V22/group-18/wiki/Milestone-1:-Manual-Control)
+* [Obstacle Avoidance](https://github.com/DIT113-V22/group-18/wiki/Milestone-3:-Obstacle-Avoidance)
+* [Camera feed](https://github.com/DIT113-V22/group-18/wiki/Milestone-2:-Camera-Feed)
+* [MQTT Connection](https://github.com/DIT113-V22/group-18/wiki/Milestone-4:-MQTT-Connection)
+
 
 # Get Started
 
