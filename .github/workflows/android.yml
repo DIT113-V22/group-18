@@ -1,43 +1,26 @@
 name: Android CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
-  build-app:
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - name: Clone Repo
-        uses: actions/checkout@v2
-      - name: Build icar13
-        run: |
-          cd gradlew build --stacktrace
-  run-unit-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - name: Clone Repo
-        uses: actions/checkout@v2
-      - name: Run unit tests for icar13
-        run: |
-          cd gradlew test --info
-  run-instrumented-tests:
-    runs-on: macos-latest
-    steps:
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - name: Clone Repo
-        uses: actions/checkout@v2
-      - name: Run instrumented tests for icar13
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          script: cd gradlew connectedAndroidTest
+    - uses: actions/checkout@v3
+    - name: set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        
+    - name: Clone Repo
+      uses: actions/checkout@v2
+    - name: Build icar13
+      run: |
+       cd ./gradlew build --stacktrace
