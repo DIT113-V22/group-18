@@ -22,4 +22,5 @@ jobs:
     - name: Clone Repo
       uses: actions/checkout@v2
     - name: Build icar13
-      run: gradlew build
+      run: |
+          ./gradlew build
