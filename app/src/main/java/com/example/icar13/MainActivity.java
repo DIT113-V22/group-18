@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int STEERING_ANGLE = 50;
     private static final int QOS = 1;
     private static final int IMAGE_WIDTH = 320;
-    private static final int IMAGE_HEIGHT = 241;
+    private static final int IMAGE_HEIGHT = 240;
 
     TextView timerText;
     TextView timerText2;
