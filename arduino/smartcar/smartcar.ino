@@ -163,7 +163,6 @@ void ObstacleAvoid ()
   {
     Serial.println("An obstacle is detected. The car should stop moving... ");
      car.setSpeed(0);
-     delay(400);
     Serial.println("Car is stopped. Rotating is in process.");
     car.setSpeed(bSpeed);
     delay(2000);
@@ -186,19 +185,16 @@ void SurroundingCheck()
   if(leftdistance > 10 && leftdistance < 60)  //checking obstacle at leftside
 {
   Serial.println("An Obstacle is detected on the leftside.");
-  delay(400);
   turnright();
 }
   else if(rightdistance > 10 && rightdistance < 60) // checking obstacle at rightside
 {
   Serial.println("An Obstacle is detected on the leftside.");
-   delay(400);
   turnleft();
 }
   else if (backdistance > 10 && backdistance < 60) // checking obstacle at back
 {
   Serial.println("Detected obstacle at back. ");
-   delay(400);
   car.setSpeed(50); // Moving ahead
   
 }
@@ -209,7 +205,7 @@ void turnright()
 {
   car.setSpeed (30);
   car.setAngle (95);
-  delay(2000);
+  delay(1000);
   car.setAngle (0);
   car.setSpeed (50);
 }
@@ -219,7 +215,7 @@ void turnleft()
 {
   car.setSpeed (30);
   car.setAngle (-95);
-  delay(2000);
+  delay(1000);
   car.setAngle (0);
   car.setSpeed (50);
 }
@@ -252,7 +248,7 @@ void handleInput()
             break;
          case 'c': // checkside
            car.setSpeed(0);
-           delay(400);
+           delay(100);
            SurroundingCheck();
             break;
         default: // if you receive something that you don't know, just stop
@@ -273,14 +269,14 @@ void MovementControl()
   if(leftside > 15 && leftside < 30)  
 {
   car.setAngle (20);
-  delay(200);
+  delay(100);
   car.setAngle(0);
 }
  // checking right side so the car dont hit while moving.
   else if(rightside > 15 && rightside < 30)
 {
   car.setAngle (-20);
-  delay(200);
+  delay(100);
   car.setAngle(0);
 }
 
