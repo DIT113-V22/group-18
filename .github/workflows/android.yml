@@ -12,12 +12,10 @@ jobs:
           java-version: 11
       - name: Clone Repo
         uses: actions/checkout@v2
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
       - name: Build icar13
         run: |
           cd app
-          ./gradlew build
+          chmod +x ./gradlew 
   run-unit-tests:
     runs-on: ubuntu-latest
     steps:
@@ -30,5 +28,5 @@ jobs:
       - name: Run unit tests for icar13
         run: |
           cd app
-          ./gradlew build
+          chmod +x ./gradlew build
           
