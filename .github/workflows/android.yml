@@ -15,6 +15,7 @@ jobs:
       - name: Build icar13
         run: |
           cd app
+          ./gradlew build
   run-unit-tests:
     runs-on: ubuntu-latest
     steps:
@@ -27,6 +28,7 @@ jobs:
       - name: Run unit tests for icar13
         run: |
           cd app
+          ./gradlew build
   run-instrumented-tests:
     runs-on: macos-latest
     steps:
