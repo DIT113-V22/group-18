@@ -12,6 +12,8 @@ jobs:
           java-version: 11
       - name: Clone Repo
         uses: actions/checkout@v2
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       - name: Build icar13
         run: |
           cd app
