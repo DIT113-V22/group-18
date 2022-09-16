@@ -163,10 +163,6 @@ void ObstacleAvoid ()
   {
     Serial.println("An obstacle is detected. The car should stop moving... ");
      car.setSpeed(0);
-<<<<<<< HEAD
-=======
-     delay(400);
->>>>>>> 71680e56483edc434189f88589082798b41f606c
     Serial.println("Car is stopped. Rotating is in process.");
     car.setSpeed(bSpeed);
     delay(2000);
@@ -189,28 +185,16 @@ void SurroundingCheck()
   if(leftdistance > 10 && leftdistance < 60)  //checking obstacle at leftside
 {
   Serial.println("An Obstacle is detected on the leftside.");
-<<<<<<< HEAD
-=======
-  delay(400);
->>>>>>> 71680e56483edc434189f88589082798b41f606c
   turnright();
 }
   else if(rightdistance > 10 && rightdistance < 60) // checking obstacle at rightside
 {
   Serial.println("An Obstacle is detected on the leftside.");
-<<<<<<< HEAD
-=======
-   delay(400);
->>>>>>> 71680e56483edc434189f88589082798b41f606c
   turnleft();
 }
   else if (backdistance > 10 && backdistance < 60) // checking obstacle at back
 {
   Serial.println("Detected obstacle at back. ");
-<<<<<<< HEAD
-=======
-   delay(400);
->>>>>>> 71680e56483edc434189f88589082798b41f606c
   car.setSpeed(50); // Moving ahead
   
 }
@@ -221,11 +205,7 @@ void turnright()
 {
   car.setSpeed (30);
   car.setAngle (95);
-<<<<<<< HEAD
   delay(1000);
-=======
-  delay(2000);
->>>>>>> 71680e56483edc434189f88589082798b41f606c
   car.setAngle (0);
   car.setSpeed (50);
 }
@@ -235,11 +215,7 @@ void turnleft()
 {
   car.setSpeed (30);
   car.setAngle (-95);
-<<<<<<< HEAD
   delay(1000);
-=======
-  delay(2000);
->>>>>>> 71680e56483edc434189f88589082798b41f606c
   car.setAngle (0);
   car.setSpeed (50);
 }
@@ -272,11 +248,7 @@ void handleInput()
             break;
          case 'c': // checkside
            car.setSpeed(0);
-<<<<<<< HEAD
            delay(100);
-=======
-           delay(400);
->>>>>>> 71680e56483edc434189f88589082798b41f606c
            SurroundingCheck();
             break;
         default: // if you receive something that you don't know, just stop
@@ -297,22 +269,14 @@ void MovementControl()
   if(leftside > 15 && leftside < 30)  
 {
   car.setAngle (20);
-<<<<<<< HEAD
   delay(100);
-=======
-  delay(200);
->>>>>>> 71680e56483edc434189f88589082798b41f606c
   car.setAngle(0);
 }
  // checking right side so the car dont hit while moving.
   else if(rightside > 15 && rightside < 30)
 {
   car.setAngle (-20);
-<<<<<<< HEAD
   delay(100);
-=======
-  delay(200);
->>>>>>> 71680e56483edc434189f88589082798b41f606c
   car.setAngle(0);
 }
 
