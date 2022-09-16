@@ -1,11 +1,16 @@
 package com.example.icar13;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +20,9 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "SmartcarMqttController";
@@ -30,6 +38,16 @@ public class MainActivity extends AppCompatActivity {
     private static final int QOS = 1;
     private static final int IMAGE_WIDTH = 320;
     private static final int IMAGE_HEIGHT = 240;
+
+    TextView timerText;
+    TextView timerText2;
+    Button stopStartButton;
+
+    Timer timer;
+    TimerTask timerTask;
+    Double time = 0.0;
+
+    boolean timerStarted = false;
 
     private MqttClient mMqttClient;
     private boolean isConnected = false;
@@ -47,7 +65,142 @@ public class MainActivity extends AppCompatActivity {
         TravDist = findViewById(R.id.distance);
 
         connectToMqttBroker();
+
+        timerText = (TextView) findViewById(R.id.timerText);
+        timerText2 = (TextView) findViewById(R.id.TotTime);
+
+        stopStartButton = (Button) findViewById(R.id.startStopButton);
+
+        timer = new Timer();
+
+        Button btdNavToMessage = findViewById(R.id.stop_button);
+
+        btdNavToMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: Clicked btdNavToMessage");
+
+                Intent intent =new Intent(MainActivity.this, Message.class);
+
+                String timeTopass = timerText.getText().toString();
+                //String timeTopass2 = timerText2.toString();
+                intent.putExtra("time",timeTopass);
+                startActivity(intent);
+
+
+            }
+        });
     }
+
+    ////////////////////////////////////////
+    public void resetTapped(View view)
+    {
+        AlertDialog.Builder resetAlert = new AlertDialog.Builder(this);
+        resetAlert.setTitle("Reset Timer");
+        resetAlert.setMessage("Are you sure you want to reset the timer?");
+        resetAlert.setPositiveButton("Reset", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                if(timerTask != null)
+                {
+                    timerTask.cancel();
+                    setButtonUI("START", R.color.teal_200);
+                    time = 0.0;
+                    timerStarted = false;
+                    timerText.setText(formatTime(0,0,0));
+
+                }
+            }
+        });
+
+        resetAlert.setNeutralButton("Cancel", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                //do nothing
+            }
+        });
+
+        resetAlert.show();
+
+    }
+
+    public void startStopTapped(View view)
+    {
+        if(timerStarted == false)
+        {
+            timerStarted = true;
+            setButtonUI("STOP", R.color.teal_200);
+
+            startTimer();
+        }
+        else
+        {
+            timerStarted = false;
+            setButtonUI("START", R.color.teal_200);
+
+            timerTask.cancel();
+        }
+    }
+
+    private void setButtonUI(String start, int color)
+    {
+        stopStartButton.setText(start);
+        stopStartButton.setTextColor(ContextCompat.getColor(this, color));
+    }
+
+    private void startTimer()
+    {
+        timerTask = new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        time++;
+                        timerText.setText(getTimerText());
+                        //timerText2.setText(getTimerText2().toString());
+                    }
+                });
+            }
+
+        };
+        timer.scheduleAtFixedRate(timerTask, 0 ,1000);
+    }
+
+
+    public String getTimerText()
+    {
+        int rounded = (int) Math.round(time);
+
+        int seconds = ((rounded % 86400) % 3600) % 60;
+        int minutes = ((rounded % 86400) % 3600) / 60;
+        int hours = ((rounded % 86400) / 3600);
+
+        return formatTime(seconds, minutes, hours);
+    }
+
+    public Integer getTimerText2()
+    {
+        int rounded = (int) Math.round(time);
+
+        return rounded;
+    }
+
+    private String formatTime(int seconds, int minutes, int hours)
+    {
+        return String.format("%02d",hours) + " : " + String.format("%02d",minutes) + " : " + String.format("%02d",seconds);
+    }
+
+
+    ///////////////////////////////////////
 
     @Override
     protected void onResume() {
@@ -127,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
                         value = value * 100.0;
                         int temp = (int) value;
                         value = temp / 100.0 *3.6;
-                        mspeedMeasure.setText(value + " km/h");
+                        mspeedMeasure.setText(String.format("%.1f",value) + " km/h");
 
                     } else if(topic.equals("/smartcar/TravDist")) {
                         double value = Double.parseDouble(message.toString());
