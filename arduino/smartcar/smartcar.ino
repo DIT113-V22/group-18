@@ -92,7 +92,7 @@ void setup() {
   while (wifiStatus != WL_CONNECTED && wifiStatus != WL_NO_SHIELD) {
     Serial.println(wifiStatus);
     Serial.print(".");
-    delay(1000);
+    delay(500);
     wifiStatus = WiFi.status();
   }
 
@@ -101,7 +101,7 @@ void setup() {
   Serial.println("Connecting to MQTT broker");
   while (!mqtt.connect("arduino", "public", "public")) {
     Serial.print(".");
-    delay(1000);
+    delay(500);
   }
   mqtt.subscribe("/smartcar/control/#", 1);
   mqtt.onMessage([](String topic, String message) {
@@ -128,7 +128,7 @@ void loop() {
     const auto currentTime = millis();
 #ifdef __SMCE__
     static auto previousFrame = 0UL;
-    if (currentTime - previousFrame >= 60) {
+    if (currentTime - previousFrame >= 120) {
       previousFrame = currentTime;
       Camera.readFrame(frameBuffer.data());
       mqtt.publish("/smartcar/camera", frameBuffer.data(), frameBuffer.size(),
@@ -205,7 +205,6 @@ void turnright()
 {
   car.setSpeed (30);
   car.setAngle (95);
-  delay(1000);
   car.setAngle (0);
   car.setSpeed (50);
 }
@@ -215,7 +214,6 @@ void turnleft()
 {
   car.setSpeed (30);
   car.setAngle (-95);
-  delay(1000);
   car.setAngle (0);
   car.setSpeed (50);
 }
