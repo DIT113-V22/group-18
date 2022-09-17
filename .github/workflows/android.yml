@@ -15,7 +15,7 @@ jobs:
       - name: Build icar13
         run: |
           cd app
-          ./gradlew build --stacktrace
+          chmod +x./gradlew build --stacktrace
   run-unit-tests:
     runs-on: ubuntu-latest
     steps:
@@ -28,7 +28,7 @@ jobs:
       - name: Run unit tests for icar13
         run: |
           cd app
-          ./gradlew test --info
+          chmod +x./gradlew test --info
   run-instrumented-tests:
     runs-on: macos-latest
     steps:
@@ -42,4 +42,5 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: cd app./gradlew connectedAndroidTest
+          script: cd app
+                chmod +x./gradlew connectedAndroidTest
