@@ -28,7 +28,7 @@ jobs:
       - name: Run unit tests for icar13
         run: |
           cd app
-          chmod + x./gradlew 
+          chmod +x ./gradlew 
   run-instrumented-tests:
     runs-on: macos-latest
     steps:
