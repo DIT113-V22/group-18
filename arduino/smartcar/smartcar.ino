@@ -205,6 +205,7 @@ void turnright()
 {
   car.setSpeed (30);
   car.setAngle (95);
+  delay(500);
   car.setAngle (0);
   car.setSpeed (50);
 }
@@ -214,6 +215,7 @@ void turnleft()
 {
   car.setSpeed (30);
   car.setAngle (-95);
+  delay(500);
   car.setAngle (0);
   car.setSpeed (50);
 }
