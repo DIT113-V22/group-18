@@ -67,6 +67,9 @@ GP2Y0A21 backIR(arduinoRuntime,BACK_IR_PIN);
 
 
 SR04 front(arduinoRuntime, triggerPin, echoPin, maxDistance);
+SR04 left(arduinoRuntime, 2, 3, maxDistance); 
+SR04 right(arduinoRuntime, 4, 5, maxDistance);
+SR04 back(arduinoRuntime, 16, 17, maxDistance);
 
 std::vector<char> frameBuffer;
 
@@ -92,7 +95,7 @@ void setup() {
   while (wifiStatus != WL_CONNECTED && wifiStatus != WL_NO_SHIELD) {
     Serial.println(wifiStatus);
     Serial.print(".");
-    delay(500);
+    delay(300);
     wifiStatus = WiFi.status();
   }
 
@@ -101,7 +104,7 @@ void setup() {
   Serial.println("Connecting to MQTT broker");
   while (!mqtt.connect("arduino", "public", "public")) {
     Serial.print(".");
-    delay(500);
+    delay(300);
   }
   mqtt.subscribe("/smartcar/control/#", 1);
   mqtt.onMessage([](String topic, String message) {
@@ -128,7 +131,7 @@ void loop() {
     const auto currentTime = millis();
 #ifdef __SMCE__
     static auto previousFrame = 0UL;
-    if (currentTime - previousFrame >= 120) {
+    if (currentTime - previousFrame >= 220) {
       previousFrame = currentTime;
       Camera.readFrame(frameBuffer.data());
       mqtt.publish("/smartcar/camera", frameBuffer.data(), frameBuffer.size(),
@@ -149,20 +152,28 @@ void loop() {
   }
 #ifdef __SMCE__
   // This delay is for avoiding the CPU time-over
-  delay(1);
+  delay(10);
 #endif
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 
 void ObstacleAvoid ()
 {
-  int distance = front.getDistance();
-  if(distance > 0 && distance < 100)
+  
+    unsigned int distance_front = front.getDistance();
+    unsigned int triggerDist = 120;
+    const int sideTriggerDist = 20;
+    unsigned int frontInfra = frontIR.getDistance();
+    unsigned int leftInfra = leftIR.getDistance();
+    unsigned int rightInfra = rightIR.getDistance();
+    unsigned int backInfra = backIR.getDistance();
+    
+  if(distance_front > 0 && distance_front < 200)
   {
-    Serial.println("An obstacle is detected. The car should stop moving... ");
+    Serial.println("An obstacle is detected in the front. The car should stop moving... ");
      car.setSpeed(0);
+     delay(1000);
     Serial.println("Car is stopped. Rotating is in process.");
     car.setSpeed(bSpeed);
     delay(2000);
@@ -170,8 +181,18 @@ void ObstacleAvoid ()
     delay(1000);
     car.setSpeed(fSpeed);
     car.setAngle (0);
-    SurroundingCheck();
+    //SurroundingCheck();
   }
+
+    if(backInfra > 0 && backInfra < 200)
+  {
+    Serial.println("An obstacle is detected in the back. The car should stop moving... ");
+    car.setSpeed(0);
+    //delay(500);
+    car.setSpeed(fSpeed);
+  }
+
+  
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -205,7 +226,7 @@ void turnright()
 {
   car.setSpeed (30);
   car.setAngle (95);
-  delay(500);
+  delay(1000);
   car.setAngle (0);
   car.setSpeed (50);
 }
@@ -215,7 +236,7 @@ void turnleft()
 {
   car.setSpeed (30);
   car.setAngle (-95);
-  delay(500);
+  delay(1000);
   car.setAngle (0);
   car.setSpeed (50);
 }
